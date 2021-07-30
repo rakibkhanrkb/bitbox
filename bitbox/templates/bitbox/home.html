@@ -1,0 +1,12 @@
+{% extends 'bitbox/base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+	{% for result in results %}
+  	<p>{{result}}</p>
+	{% endfor %}
+
+{% endblock %}

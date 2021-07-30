@@ -1,0 +1,21 @@
+{% extends 'bitbox/base.html' %}
+
+
+{% block content %}
+
+{% if results %}
+	<h1>Congratulation!.. you are member of bitBox </h1>
+	<h3> U will get 20% discount of all bitbox product </h3>
+	<center>
+		<br>
+		{% for result in results %}
+  		<h3>{{result.name}}</h3>
+  		<p>{{result.Address}}</p>
+		{% endfor %}
+	</center> 
+{% else %}
+	<h1>sorry! you are not member of bitbox </h1>
+{% endif %}
+
+ 
+{% endblock %}

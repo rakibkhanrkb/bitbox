@@ -1,0 +1,217 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bitbox membership check </title>
+    <style>
+        #fform,#aform
+        {
+            display: table;
+            margin: 0 auto;
+        }
+        h1{text-align:center;}
+        h3{text-align: center;color: brown;}
+        input[type=number]
+        {
+            width: 20%;
+            padding: 2px;
+            font-size: 12px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+
+        }
+
+        input[type=number]:focus {
+            background-color: lightblue;
+            border: 3px solid #555;
+        }
+
+    </style>
+
+    <script>
+
+        function validateForm() {
+            var x = document.aform.anum1.value;
+            var y = document.aform.anum2.value;
+            var z = document.aform.anum3.value;
+            if (x == "" ||  y == "" || z == "" ) {
+                alert("Name must be filled out");
+                return false;
+            }
+        }
+
+        function check () {
+
+            var x=document.aform.anum3.value.length;
+
+            if(x<=4 )
+            {
+                return true;
+            }
+            else
+            {
+                var str3 = document.aform.anum3.value;
+                str3 = str3.substring(0, str3.length - 1);
+                document.aform.anum3.value = str3;
+
+
+            }
+        }
+        function check2 () {
+
+            var y=document.aform.anum2.value.length;
+            if(y<=2 )
+            {
+                return true;
+            }
+            else
+            {
+                var str2 = document.aform.anum2.value;
+                str2 = str2.substring(0, str2.length - 1);
+                document.aform.anum2.value = str2;
+
+
+            }
+        }
+
+        function check1 () {
+
+            var y=document.aform.anum1.value.length;
+            if(y<=2 )
+            {
+                return true;
+            }
+            else
+            {
+                var str1 = document.aform.anum1.value;
+                str1 = str1.substring(0, str1.length - 1);
+                document.aform.anum1.value = str1;
+
+
+            }
+        }
+
+        function dayvalidate(a,b,c)
+        {
+            if(a < b || isNaN(a))
+                return 0;
+            else if(a > c)
+                return 31;
+            else return a;
+        }
+        function monthvalidate(a,b,c)
+        {
+            if(a < b || isNaN(a))
+                return 0;
+            else if(a > c)
+                return 12;
+            else return a;
+        }
+        function yearvalidate(a,b,c)
+        {
+            if(a < b || isNaN(a))
+                return 0;
+            else if(a > c)
+                return 2021;
+            else return a;
+        }
+
+       function phonevalidate(a,b,c)
+        {
+            if(a < b || isNaN(a))
+                return 0;
+            else if(a > c)
+                return 1999999999;
+            else return a;
+        }
+
+        function  age() {
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1;
+            var yyyy = today.getFullYear();
+            today = dd + mm * 30 + yyyy*12*30;
+
+
+            var dobdd=parseInt(document.aform.anum1.value);
+            var dobmm=parseInt(document.aform.anum2.value);
+            var dobyy=parseInt(document.aform.anum3.value);
+            var btd = dobdd + dobmm * 30 + dobyy*12*30;
+
+           var resulttotaldays=today-btd;
+            var resdd=resulttotaldays%30;
+            var emm= parseInt(resulttotaldays/30);
+            var resmm=emm%12;
+            var resyy=parseInt(emm/12);
+            document.getElementById("show1").innerHTML=resdd+" Days";
+            document.getElementById("show2").innerHTML=resmm+" Month";
+            document.getElementById("show3").innerHTML=resyy+" Year ";
+
+
+
+
+        }
+    </script>
+
+
+
+</head>
+<body style="align-self: center">
+
+
+  
+
+
+
+<center>  
+<img width="300px" height="70px" src="{%static 'logo.png'%}" alt="image is missing"> 
+<h3>Enter your mobile no for membership check</h3>
+</center>  
+<br>
+
+
+<form action="{% url 'search' %}" method="POST">
+    {% csrf_token %} 
+    <center>
+    <input type="number" name="searched" placeholder="Type your mobile no"max="01999999999" min="0" maxlength="11" onkeyup= "this.value=phonevalidate(this.value,0,1999999999) required oninput="check1()">
+    <button type="submit" >Check</button> 
+    </center>
+</form>
+
+{% block content%}
+{% endblock %}
+ 
+ <!--<br>
+ <br>   
+<h1 style="color: darkgreen">Age Calcultator</h1>
+<h3>Date of Birth</h3>
+<form action="#" name="aform"  id="aform" method="post">
+    <table width="500px">
+
+        <tr>
+            <td>Days<input type="number"  name="anum1" id="anum1" max="31" min="0" required oninput="check1()" onkeyup= "this.value=dayvalidate(this.value,0,31)"></td>
+            <td> Month <input type="number"  name="anum2" id="anum2" max="12" min="0" required oninput="check2()"  onkeyup= "this.value=monthvalidate(this.value,0,12)" ></td>
+            <td>Year  <input type="number"  name="anum3" id="anum3" max="2021" min="1971"required oninput="check()"  onkeyup= "this.value=yearvalidate(this.value,0,2021)" ></td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>
+                <input type="button"  value="Your Age " onclick="age(),validateForm()"  >
+            </td>
+        </tr>
+
+
+
+
+    </table>
+
+</form>
+<h1 style="color: darkblue"><span id="show3"></span><span id="show2"></span> <span id="show1"></span></h1>
+-->
+    
+  </body>
+</html>
