@@ -4,17 +4,17 @@
 {% block content %}
 
 {% if results %}
-	<h1>Congratulation!.. you are member of bitBox </h1>
-	<h3> U will get 20% discount of all bitbox product </h3>
+	<h1>Congratulation!</h1>
+	<h3> You will get 40% discount of bitbox online IT job coaching (Batch-4) </h3>
 	<center>
 		<br>
 		{% for result in results %}
   		<h3>{{result.name}}</h3>
-  		<p>{{result.Address}}</p>
+  		<p>{{result.batch}}</p>
 		{% endfor %}
 	</center> 
 {% else %}
-	<h1>sorry! you are not member of bitbox </h1>
+	<h1>Sorry! you are not registered in previous  bitbox course </h1>
 {% endif %}
 
  
