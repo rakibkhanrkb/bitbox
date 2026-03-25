@@ -13,15 +13,11 @@
         }
         h1{text-align:center;}
         h3{text-align: center;color: brown;}
-     .form-container {
+.form-container {
     max-width: 350px;
-    margin: 100px auto;
+    margin: 60px auto;
     text-align: center;
-    font-family: Arial, sans-serif;
-}
-
-.input-group {
-    position: relative;
+    font-family: Arial;
 }
 
 input {
@@ -30,12 +26,10 @@ input {
     border: 2px solid #ccc;
     border-radius: 8px;
     font-size: 16px;
-    outline: none;
-    transition: 0.3s;
 }
 
 input:focus {
-    border-color: #4CAF50;
+    border-color: #28a745;
 }
 
 #error-msg {
@@ -49,17 +43,12 @@ button {
     margin-top: 15px;
     width: 100%;
     padding: 12px;
-    background: linear-gradient(45deg, #4CAF50, #2E7D32);
+    background: #28a745;
     border: none;
     color: white;
     font-size: 16px;
     border-radius: 8px;
     cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    opacity: 0.9;
 }
 
     </style>
@@ -184,30 +173,27 @@ button:hover {
             document.getElementById("show3").innerHTML=resyy+" Year ";
        }
 
-        const phoneInput = document.getElementById("phone");
-const errorMsg = document.getElementById("error-msg");
+const phone = document.getElementById("phone");
+const error = document.getElementById("error-msg");
 
-phoneInput.addEventListener("input", function () {
-    // শুধু number allow
+// typing এর সময় validation
+phone.addEventListener("input", function () {
+    // শুধু সংখ্যা allow
     this.value = this.value.replace(/[^0-9]/g, '');
 
-    // ১১ ডিজিট validation
-    if (this.value.length > 11) {
-        this.value = this.value.slice(0, 11);
-    }
-
     if (this.value.length === 11) {
-        errorMsg.textContent = "";
+        error.textContent = "";
     } else {
-        errorMsg.textContent = "Must be exactly 11 digits";
+        error.textContent = "মোবাইল নাম্বার অবশ্যই ১১ সংখ্যা হতে হবে";
     }
 });
 
-// submit এর সময় final check
+// submit এর সময় check
 document.querySelector("form").addEventListener("submit", function(e) {
-    if (phoneInput.value.length !== 11) {
+    if (phone.value.length !== 11) {
         e.preventDefault();
-        errorMsg.textContent = "Enter valid 11 digit number";
+        error.textContent = "মোবাইল নাম্বার অবশ্যই ১১ সংখ্যা হতে হবে";
+        phone.focus();
     }
 });
     </script>
@@ -228,16 +214,14 @@ document.querySelector("form").addEventListener("submit", function(e) {
 </center>  
 <br>
 
-
 <form action="{% url 'search' %}" method="POST" class="form-container">
     {% csrf_token %}
-
     <div class="input-group">
         <input 
             type="text" 
             name="searched" 
             id="phone"
-            placeholder="Enter 11 digit mobile number"
+            placeholder="মোবাইল নাম্বার লিখুন (১১ সংখ্যা)"
             maxlength="11"
             required
         >
