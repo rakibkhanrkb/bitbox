@@ -9,8 +9,19 @@ def index(request):
 
 def search_product(request):
     if request.method == "POST":
-        query_phone = request.POST['searched']
-        if query_phone:	
-            results = reg.objects.filter(phone__contains=query_phone)
-            return render(request, 'bitbox/search.html', {"results":results})
+        query_phone = request.POST.get('searched')
+
+        # 🔒 validation
+        if not query_phone or len(query_phone) != 11 or not query_phone.isdigit():
+            return render(request, 'bitbox/search.html', {
+                "error": "মোবাইল নাম্বার অবশ্যই ১১ সংখ্যার হতে হবে"
+            })
+
+        # ✅ valid হলে search
+        results = reg.objects.filter(phone=query_phone)
+
+        return render(request, 'bitbox/search.html', {
+            "results": results
+        })
+
     return render(request, 'bitbox/search.html')
